@@ -1,0 +1,19 @@
+## Eviroment Variables
+```plaintext
+NODE_ENV=development
+PORT=5000
+SUPER_ADMIN_PASSWORD=yourSuperAdminPassword
+DATABASE_URL=mongodb+srv://yourusername:yourpassword@yourcluster.mongodb.net/your-database?retryWrites=true&w=majority&appName=Cluster0
+DEFAULT_PASSWORD=yourDefaultPassword
+BCRYPT_SALT_ROUNDS=12
+JWT_ACCESS_TOKEN_SECRET=yourAccessTokenSecret
+JWT_REFRESH_TOKEN_SECRET=yourRefreshTokenSecret
+JWT_ACCESS_EXPIRES_IN=10d
+JWT_REFRESH_EXPIRES_IN=90d
+GOOGLE_EMAIL_FOR_SEND_MAIL=yourGoogleEmail@gmail.com
+GOOGLE_ACCOUNT_APP_PASSWORD=yourGoogleAppPassword
+RESET_PASS_UI_LINK=http://localhost:3000
+CLOUDINAY_CLOUD_NAME=yourCloudinaryCloudName
+CLOUDINAY_API_KEY=yourCloudinaryApiKey
+CLOUDINAY_API_SECRET=yourCloudinaryApiSecret
+```
