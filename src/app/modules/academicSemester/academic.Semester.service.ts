@@ -1,10 +1,23 @@
-import { academicSemesterNameAndCodeMapper } from './academic.Semester.constant'
+import QueryBuilder from '../../builder/QueryBuilder'
+import {
+  academicSemesterNameAndCodeMapper,
+  academicSemesterSearchAbleFields,
+} from './academic.Semester.constant'
 import { AcademicSemeter } from './academic.Semester.model'
 import { TAcademicSemester } from './academic.Semeter.interface'
 
-const getAllSemesterFromDB = async () => {
-  const result = await AcademicSemeter.find()
-  return result
+const getAllSemesterFromDB = async (query: Record<string, unknown>) => {
+  const semesterQuery = new QueryBuilder(AcademicSemeter.find(), query)
+    .search(academicSemesterSearchAbleFields)
+    .filter()
+    .sort()
+    .fields()
+    .paginate()
+
+  const result = await semesterQuery.modelQuery
+  const meata = await semesterQuery.countTotal()
+
+  return { result, meata }
 }
 const getSingleSemesterFromDB = async (semesterId: string) => {
   const result = await AcademicSemeter.findById({ _id: semesterId })

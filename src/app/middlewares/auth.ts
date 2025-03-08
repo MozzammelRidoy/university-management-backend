@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express'
 import catchAsync from '../utils/catchAsync'
 import AppError from '../errors/AppError'
@@ -41,10 +42,15 @@ const auth = (...requiredRole: TUserRole[]) => {
     //   },
     // )
 
-    const decoded = jwt.verify(
-      token,
-      config.jwt_access_token_secret as string,
-    ) as JwtPayload
+    let decoded
+    try {
+      decoded = jwt.verify(
+        token,
+        config.jwt_access_token_secret as string,
+      ) as JwtPayload
+    } catch (err: any) {
+      throw new AppError(401, err.message)
+    }
 
     const { userId, role, iat } = decoded
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config'
 import AppError from '../../errors/AppError'
 import { User } from '../user/users.model'
@@ -119,10 +120,15 @@ const refreshToken = async (token: string) => {
   }
 
   // check if the token is valid.
-  const decoded = jwt.verify(
-    token,
-    config.jwt_refresh_token_secret as string,
-  ) as JwtPayload
+  let decoded: JwtPayload
+  try {
+    decoded = jwt.verify(
+      token,
+      config.jwt_refresh_token_secret as string,
+    ) as JwtPayload
+  } catch (err: any) {
+    throw new AppError(401, err.message)
+  }
 
   const { userId, iat } = decoded
 

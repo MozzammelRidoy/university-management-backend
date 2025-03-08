@@ -3,12 +3,13 @@ import sendResponse from '../../utils/sendResponse'
 import { AcademicSemesterService } from './academic.Semester.service'
 
 const getAllSemester = catchAsync(async (req, res) => {
-  const result = await AcademicSemesterService.getAllSemesterFromDB()
+  const result = await AcademicSemesterService.getAllSemesterFromDB(req.query)
   sendResponse(res, {
     statusCode: 200,
     success: true,
     message: 'Semesters is Retrived Succeffully!',
-    data: result,
+    data: result.result,
+    meta: result.meata,
   })
 })
 const getSingleSemester = catchAsync(async (req, res) => {
