@@ -1,8 +1,9 @@
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import { studentControllers } from './students.controller'
 import validateRequest from '../../middlewares/validateRequest'
 import { StudentValidationZodSchema } from './students.validation.zod'
 import auth from '../../middlewares/auth'
+import { upload } from '../../utils/sendImageToCloudinary'
 
 const router = express.Router()
 
@@ -19,6 +20,11 @@ router.get(
 router.patch(
   '/:id',
   auth('superAdmin', 'admin'),
+  upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = JSON.parse(req.body.data)
+    next()
+  },
   validateRequest(StudentValidationZodSchema.updateStudentValidationZodSchema),
   studentControllers.updateStudent,
 )

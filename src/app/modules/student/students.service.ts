@@ -5,6 +5,7 @@ import { TStudent } from './students.interface'
 import QueryBuilder from '../../builder/QueryBuilder'
 import { studentSearchableFileds } from './students.constant'
 import { User } from '../user/users.model'
+import { sendImageToCloudinay } from '../../utils/sendImageToCloudinary'
 
 const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   const studentQuery = new QueryBuilder(
@@ -39,6 +40,7 @@ const getSingleStudentFromDB = async (id: string) => {
 
 const updateSingleStudentIntoDB = async (
   id: string,
+  file: any,
   payload: Partial<TStudent>,
 ) => {
   const { name, guardian, localGuardian, ...remainingStudentData } = payload
@@ -75,6 +77,13 @@ const updateSingleStudentIntoDB = async (
     for (const [key, value] of Object.entries(localGuardian)) {
       modifiedUpdateData[`localGuardian.${key}`] = value
     }
+  }
+  if (file) {
+    // call cloudinary .
+    const imageName = `${id}_${payload?.name?.firstName}`
+    const path = file?.path
+    const { secure_url } = await sendImageToCloudinay(imageName, path)
+    modifiedUpdateData.profileImage = secure_url as string
   }
 
   const result = await Student.findByIdAndUpdate(id, modifiedUpdateData, {

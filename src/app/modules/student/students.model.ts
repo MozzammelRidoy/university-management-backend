@@ -82,6 +82,10 @@ const LocalGuardianSchema = new Schema<TLocalGuardian>(
       required: [true, 'Local G Contact No is Required'],
       trim: true,
     },
+    address: {
+      type: String,
+      trim: true,
+    },
   },
   {
     _id: false,
